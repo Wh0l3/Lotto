@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:lottery_ticket drawing_date="2001-01-01" xmlns:tns="http://www.leafit.ch/lottery_tickets/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.leafit.ch/lottery_tickets/ lottery_tickets.xsd ">
+  <identifier>0</identifier>
+  <play>
+    <lottery_numbers>
+      <lottery_number>0</lottery_number>
+      <lottery_number>0</lottery_number>
+      <lottery_number>0</lottery_number>
+      <lottery_number>0</lottery_number>
+      <lottery_number>0</lottery_number>
+    </lottery_numbers>
+    <star_numbers>
+      <star_number>0</star_number>
+      <star_number>0</star_number>
+    </star_numbers>
+    <super_star_numbers>
+      <super_star>super_star</super_star>
+    </super_star_numbers>
+  </play>
+  <nbr_of_valid_drawings>1</nbr_of_valid_drawings>
+</tns:lottery_ticket>
