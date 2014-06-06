@@ -9,6 +9,10 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -62,8 +66,15 @@ public class Controller {
 	private GridPane grid_Numbers; // Value injected by FXMLLoader
 
 	@FXML
+	// fx:id="grid_starNumbers"
+	private GridPane grid_starNumbers; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="grid_superStarNumbers"
+	private GridPane grid_superStarNumbers; // Value injected by FXMLLoader
+
+	@FXML
 	void alert(ActionEvent event) {
-		// System.out.println("asdfasdf");
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(null);
 		if (file != null) {
@@ -80,11 +91,16 @@ public class Controller {
 	}
 
 	@FXML
-	void selectFile(ActionEvent event) {
+	void selectFile(ActionEvent event) throws JAXBException {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(null);
 		if (file != null) {
-			setResponseText("File "+file.getName()+" erhalten");
+			//if (file.getName().contains(".xml")) {
+				setResponseText("File " + file.getName() + " erhalten");
+				getFileContent(file);
+			//} else {
+			//	setResponseText("File ist kein XML File. Bitte nochmals probieren");
+			//}
 
 		} else {
 			setResponseText("Kein File enthalten");
@@ -95,33 +111,75 @@ public class Controller {
 	// This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 		assert mnu_close != null : "fx:id=\"mnu_close\" was not injected: check your FXML file 'Application.fxml'.";
+		assert grid_superStarNumbers != null : "fx:id=\"grid_superStarNumbers\" was not injected: check your FXML file 'Application.fxml'.";
 		assert tab_uploadMultiple != null : "fx:id=\"tab_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
 		assert tab_uploadSingle != null : "fx:id=\"tab_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
+		assert grid_starNumbers != null : "fx:id=\"grid_starNumbers\" was not injected: check your FXML file 'Application.fxml'.";
+		assert lbl_responses != null : "fx:id=\"lbl_responses\" was not injected: check your FXML file 'Application.fxml'.";
+		assert grid_Numbers != null : "fx:id=\"grid_Numbers\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadSingle != null : "fx:id=\"btn_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadMultiple != null : "fx:id=\"btn_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
 		assert mnu_about != null : "fx:id=\"mnu_about\" was not injected: check your FXML file 'Application.fxml'.";
 		setGridPaneNumbers();
+		setGridPaneStarNumbers();
+		setGridPaneSuperStarNumbers();
+		try {
+			getFileContent(new File("asd.de"));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	@FXML
 	void setGridPaneNumbers() {
 		final Label label = new Label();
-        int gridLabel = 0;
-        for(int i=0;i<10;i++){
-        	for(int j=0;j<5;j++){
-        		gridLabel++;
-        		grid_Numbers.add(new Label(gridLabel + ""), i, j);
-        	}
-        }
+		int gridLabel = 0;
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 5; j++) {
+				gridLabel++;
+				grid_Numbers.add(new Label(gridLabel + ""), i, j);
+			}
+		}
 	}
 
 	@FXML
 	void setGridPaneStarNumbers() {
-
+		final Label label = new Label();
+		int gridLabel = 0;
+		for (int i = 0; i < 11; i++) {
+			gridLabel++;
+			grid_starNumbers.add(new Label(gridLabel + ""), i, 0);
+		}
 	}
 
 	@FXML
 	void setGridPaneSuperStarNumbers() {
-
+		final Label label = new Label();
+		int gridLabel = 0;
+		for (int i = 0; i < 4; i++) {
+			gridLabel++;
+			grid_superStarNumbers.add(new Label(gridLabel + ""), i, 0);
+		}
 	}
+
+	void getFileContent(File file) throws JAXBException {
+		JAXBContext jc = JAXBContext.newInstance("application");
+		Unmarshaller unmarshaller = jc.createUnmarshaller();
+		File tmpFile = new File("lottery_tickets2.xml");
+		// UnMashal the XML - File
+		System.out.print(tmpFile.exists());
+		LotteryTicketsType tickets = (LotteryTicketsType)unmarshaller.unmarshal(tmpFile);
+
+		for (int i = 0; i < tickets.getLotteryTicket().size(); i++) {
+			if (tickets.getLotteryTicket().get(i) instanceof LotteryTicketType) {
+				LotteryTicketType ticket = (LotteryTicketType) tickets.getLotteryTicket().get(i);
+				System.out.print(ticket);
+				for (int j = 0; j < ticket.getPlay().size(); j++) {
+					PlayType play = (PlayType) ticket.getPlay().get(j);
+				}
+			}
+		}
+	}
+
 }
