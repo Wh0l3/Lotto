@@ -11,47 +11,68 @@ public class LottoDraw {
 	ArrayList<Integer> superStarNumber = new ArrayList<Integer>();
 
 	// Adds a number to the <numbers> List
-	public void setNumber(int number) {
+	public boolean setNumber(int number) {
 		if (numbers.contains(number)) {
-			return;
+			deleteNumber(number);
+			System.out.print("Nummer gelöscht");
+			return true;
 		}
-		numbers.add(number);
+		if(numbers.size() < 5){
+			numbers.add(number);
+			System.out.print("Nummer hinzugefügt");
+			return true;
+		}
+		return false;
 	}
 
 	// Adds a number to the <starNumbers> List
-	public void setStarNumber(int number) {
+	public boolean setStarNumber(int number) {
 		if (starNumbers.contains(number)) {
-			return;
+			deleteStarNumber(number);
+			System.out.print("StarNummer gelöscht");
+			return false;
 		}
-		starNumbers.add(number);
+		if(starNumbers.size() < 2){
+			starNumbers.add(number);
+			System.out.print("StarNummer hinzugefügt");
+			return true;
+		}
+		return false;
 	}
 
 	// Adds a number to the <superStarNumber> List
-	public void setSuperStarNumber(int number) {
+	public boolean setSuperStarNumber(int number) {
 		if (superStarNumber.contains(number)) {
-			return;
+			deleteSuperStarNumber(number);
+			System.out.print("SuperStarNummer gelöscht");
+			return false;
 		}
-		superStarNumber.add(number);
+		if(superStarNumber.size() < 1){
+			superStarNumber.add(number);
+			System.out.print("SuperStarNummer hinzugefügt");
+			return true;
+		}
+		return false;
 	}
 
 	// Deletes a number from the <number> List
 	public void deleteNumber(int number) {
 		if (numbers.contains(number)) {
-			numbers.remove(number);
+			numbers.remove(numbers.indexOf(number));
 		}
 	}
 
 	// Deletes a number from the <starNumber> List
 	public void deleteStarNumber(int number) {
 		if (starNumbers.contains(number)) {
-			starNumbers.remove(number);
+			starNumbers.remove(starNumbers.indexOf(number));
 		}
 	}
 
 	// Deletes a number from the <StarNumber> List
 	public void deleteSuperStarNumber(int number) {
 		if (superStarNumber.contains(number)) {
-			superStarNumber.remove(number);
+			superStarNumber.remove(superStarNumber.indexOf(number));
 		}	
 	}
 }

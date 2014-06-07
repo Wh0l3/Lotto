@@ -34,7 +34,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="89.0">
                            <children>
-                              <GridPane fx:id="grid_Numbers" layoutX="21.0" layoutY="32.0" prefHeight="145.0" prefWidth="647.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="31.0">
+                              <GridPane fx:id="grid_Numbers" gridLinesVisible="true" layoutX="21.0" layoutY="32.0" prefHeight="145.0" prefWidth="647.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="31.0">
                                 <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -55,7 +55,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="grid_starNumbers" layoutY="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <GridPane fx:id="grid_starNumbers" gridLinesVisible="true" layoutY="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -73,7 +73,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="grid_superStarNumbers" layoutX="149.0" layoutY="374.0">
+                              <GridPane fx:id="grid_superStarNumbers" gridLinesVisible="true" layoutX="149.0" layoutY="374.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -84,11 +84,14 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
+                              <Label fx:id="lbl_NumbersTaken" layoutX="17.0" layoutY="14.0" text="Gezogene Nummern" />
+                              <Label fx:id="lbl_StarNumbersTaken" layoutX="14.0" layoutY="194.0" text="Gezogene Star Nummern" />
+                              <Label fx:id="lbl_SuperStarNumbersTaken" layoutX="17.0" layoutY="333.0" text="Gezogene Super Star Nummern" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="tab_uploadSingle" text="Single Choice">
+                  <Tab fx:id="tab_uploadSingle" disable="true" text="Single Choice">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -97,7 +100,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="tab_uploadMultiple" text="Multiple Choices">
+                  <Tab fx:id="tab_uploadMultiple" disable="true" text="Multiple Choices">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="89.0">
                            <children>

@@ -31,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -85,6 +86,15 @@ public class Controller {
 	@FXML
 	// fx:id="grid_superStarNumbers"
 	private GridPane grid_superStarNumbers; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lbl_NumbersTaken"
+    private Label lbl_NumbersTaken; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lbl_StarNumbersTaken"
+    private Label lbl_StarNumbersTaken; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="lbl_SuperStarNumbersTaken"
+    private Label lbl_SuperStarNumbersTaken; // Value injected by FXMLLoader
 	
 	@FXML
 	private ArrayList<Button> numberButtonList = new ArrayList<Button>();
@@ -94,6 +104,8 @@ public class Controller {
 	
 	@FXML
 	private ArrayList<Button> superStarNumberButtonList = new ArrayList<Button>();
+	
+	LottoDraw lotto = new LottoDraw();
 
 	@FXML
 	void alert(ActionEvent event) {
@@ -134,18 +146,43 @@ public class Controller {
 	}
 
 	@FXML
-    void setLottoNumber(ActionEvent event) {
-
+    boolean setLottoNumber(Integer i) {
+		if(lotto.setNumber(i)){
+			enablePanes();
+			return true;
+		}
+		return false;
+		
     }
 
     @FXML
-    void setLottoStarNumber(ActionEvent event) {
-
+    boolean setLottoStarNumber(Integer i) {
+    	if(lotto.setStarNumber(i)){
+    		enablePanes();
+    		return true;
+    	}
+    	return false;
+    	
     }
 
     @FXML
-    void setLottoSuperStarNumber(ActionEvent event) {
-
+    boolean setLottoSuperStarNumber(Integer i) {
+    	if(lotto.setSuperStarNumber(i)){
+    		enablePanes();
+    		return true;
+    	}
+    	return false;
+    	
+    }
+    
+    private void enablePanes(){
+		if(lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2 && lotto.superStarNumber.size() == 1){
+			tab_uploadSingle.setDisable(false);
+			tab_uploadMultiple.setDisable(false);
+		}else{
+			tab_uploadSingle.setDisable(true);
+			tab_uploadMultiple.setDisable(true);
+		}
     }
 
 	@FXML
@@ -182,11 +219,31 @@ public class Controller {
 	@FXML
 	void setGridPaneNumbers() {
 		int gridLabel = 0;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 10; j++) {
 				gridLabel++;
-				//numberButtonList.add(gridLabel, new Button(gridLabel + ""));
-				grid_Numbers.add(new Button(gridLabel + ""), i, j);
+				Button b = new Button(gridLabel + "");
+				Object number;
+				b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+				{
+					@Override
+					public void handle(MouseEvent arg0) {
+						Button b = (Button) arg0.getSource();
+						
+						
+						// TODO Auto-generated method stub
+						System.out.println(b.getText()+ " Button clicked");
+						if(setLottoNumber(Integer.parseInt(b.getText()))){
+							b.setEffect(new DropShadow());
+						}else{
+							b.setEffect(null);
+						}
+						System.out.print("PaneNumbers");
+						
+					}
+			
+				});
+				grid_Numbers.add(b, j, i);
 			}
 		}
 	}
@@ -196,8 +253,24 @@ public class Controller {
 		int gridLabel = 0;
 		for (int i = 0; i < 11; i++) {
 			gridLabel++;
-			//starNumberButtonList.add(gridLabel, new Button(gridLabel + ""));
-			grid_starNumbers.add(new Button(gridLabel + ""), i, 0);
+			Button b = new Button(gridLabel + "");
+			Object number;
+			b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+			{
+				@Override
+				public void handle(MouseEvent arg0) {
+					Button b = (Button) arg0.getSource();
+					
+					
+					// TODO Auto-generated method stub
+					System.out.println(b.getText()+ " Button clicked");
+					setLottoStarNumber(Integer.parseInt(b.getText()));
+					System.out.print("PaneStarNumbers");
+					
+				}
+		
+			});
+			grid_starNumbers.add(b, i, 0);
 		}
 	}
 
@@ -218,6 +291,8 @@ public class Controller {
 					
 					// TODO Auto-generated method stub
 					System.out.println(b.getText()+ " Button clicked");
+					setLottoSuperStarNumber(Integer.parseInt(b.getText()));
+					System.out.print("PaneSuperStarNumbers");
 					
 				}
 		
@@ -290,18 +365,18 @@ public class Controller {
 					Numbers numbers = play.getNumbers();
 					Stars stars = play.getStars();
 					int playId = play.getPlayId();
-					System.out.println("Ziehung NR: "+playId);
-					System.out.println("numbers");
+					/*//System.out.println("Ziehung NR: "+playId);
+					//System.out.println("numbers");
 					for(int number : numbers.getNumber())
 					{
-						System.out.println(number);
+						//System.out.println(number);
 					}
-					System.out.println("stars");
+					//System.out.println("stars");
 					for(int superStar : stars.getStar())
 					{
 						System.out.println(superStar);
 					}
-					System.out.println(play.getStars());
+					System.out.println(play.getStars());*/
 				}
 			}
 		}
