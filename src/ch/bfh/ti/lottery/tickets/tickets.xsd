@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:tickets="https://raw.githubusercontent.com/akeusen/BFH_Projects/master/src/ch/bfh/ti/lottery/tickets/tickets"
+        xmlns:ticketType="https://raw.githubusercontent.com/akeusen/BFH_Projects/master/src/ch/bfh/ti/lottery/tickets/ticketType"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="https://raw.githubusercontent.com/akeusen/BFH_Projects/master/src/ch/bfh/ti/lottery/tickets/tickets"
+        elementFormDefault="qualified"
+        >
+
+    <xs:import
+            namespace="https://raw.githubusercontent.com/akeusen/BFH_Projects/master/src/ch/bfh/ti/lottery/tickets/ticketType"
+            schemaLocation="ticketType.xsd"/>
+
+    <xs:element name="tickets">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="ticket">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="ticketType:ticketType">
+                                <xs:attribute name="ticketId" type="xs:int" use="required"/>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueTicketId">
+            <xs:selector xpath="tickets:ticket"/>
+            <xs:field xpath="@ticketId"/>
+        </xs:unique>
+    </xs:element>
+
+</xs:schema>

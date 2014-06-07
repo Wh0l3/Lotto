@@ -6,6 +6,7 @@ package application;
 
 import java.awt.List;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -14,6 +15,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import ch.bfh.ti.lottery.tickets.TicketType;
+import ch.bfh.ti.lottery.tickets.Tickets;
+import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play;
+import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Numbers;
+import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Stars;
+import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -107,7 +114,12 @@ public class Controller {
 		if (file != null) {
 			if (file.getName().contains(".xml")) {
 				setResponseText("File " + file.getName() + " erhalten");
-				getFileContent(file);
+				try {
+					getFileContent(file);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				setResponseText("File ist kein XML File. Bitte nochmals probieren");
 			}
@@ -147,6 +159,19 @@ public class Controller {
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
 		setGridPaneSuperStarNumbers();
+		
+		/*
+		 * test import: see --> ouput
+		 */
+		try {
+			getFileContent(new File("ticPool.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -188,21 +213,56 @@ public class Controller {
 		}
 	}
 
-	void getFileContent(File file) throws JAXBException {
-		JAXBContext jc = JAXBContext.newInstance("application");
+	void getFileContent(File file) throws JAXBException, FileNotFoundException {
+		JAXBContext jc = JAXBContext.newInstance("ch.bfh.ti.lottery.tickets");
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
-		File tmpFile = new File("lottery_tickets2.xml");
+		File tmpFile = new File("ticPool.xml");
+		
+		
 		// UnMashal the XML - File
-		System.out.print(tmpFile.exists());
-		LotteryTicketsType tickets = (LotteryTicketsType) unmarshaller
-				.unmarshal(tmpFile);
-		for (int i = 0; i < tickets.getLotteryTicket().size(); i++) {
-			if (tickets.getLotteryTicket().get(i) instanceof LotteryTicketType) {
-				LotteryTicketType ticket = (LotteryTicketType) tickets
-						.getLotteryTicket().get(i);
-				System.out.print(ticket);
-				for (int j = 0; j < ticket.getPlay().size(); j++) {
-					PlayType play = (PlayType) ticket.getPlay().get(j);
+		
+		
+	
+		
+		Tickets tickets = (Tickets)unmarshaller.unmarshal(file);
+		
+		
+		
+		
+		for (int i = 0; i < tickets.getTicket().size(); i++) {
+			
+			/*
+			 * every loop is a ticket
+			 */
+			if (tickets.getTicket().get(i) instanceof Ticket) {
+				TicketType ticket = (TicketType) tickets.getTicket().get(i);
+		
+				
+				System.out.println("draws"+ ticket.getDrawn());
+				System.out.println("Validity"+ticket.getValidity());
+				/*
+				 * every loop is a "draw"
+				 */
+				for (int j = 0; j < ticket.getPlays().getPlay().size(); j++) {
+					
+					
+					Play play = (Play) ticket.getPlays().getPlay().get(j);
+					//System.out.println(play.getNumbers());
+					Numbers numbers = play.getNumbers();
+					Stars stars = play.getStars();
+					int playId = play.getPlayId();
+					System.out.println("Ziehung NR: "+playId);
+					System.out.println("numbers");
+					for(int number : numbers.getNumber())
+					{
+						System.out.println(number);
+					}
+					System.out.println("stars");
+					for(int superStar : stars.getStar())
+					{
+						System.out.println(superStar);
+					}
+					System.out.println(play.getStars());
 				}
 			}
 		}
