@@ -7,6 +7,7 @@ package application;
 import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -22,6 +23,7 @@ import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Numbers;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Stars;
 import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,6 +31,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class Controller {
@@ -202,7 +207,41 @@ public class Controller {
 		for (int i = 0; i < 4; i++) {
 			gridLabel++;
 			//superStarNumberButtonList.add(gridLabel, new Button(gridLabel + ""));
-			grid_superStarNumbers.add(new Button(gridLabel + ""), i, 0);
+			Button b = new Button(gridLabel + "");
+			Object number;
+			b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+			{
+				@Override
+				public void handle(MouseEvent arg0) {
+					Button b = (Button) arg0.getSource();
+					
+					
+					// TODO Auto-generated method stub
+					System.out.println(b.getText()+ " Button clicked");
+					
+				}
+		
+			});
+			grid_superStarNumbers.add(b, i, 0);
+			
+			/*
+			 * this.txtMessage.addEventHandler(KeyEvent.KEY_PRESSED, 
+                new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent arg) { 
+                    	if(arg.getCode() == KeyCode.ENTER)
+                    	{
+                    		try {
+								chatClient.getOutputStream().writeUTF(txtMessage.getText());
+								txtMessage.setText("");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+                    	}
+                    }
+			 */
+			
+			
 			//button.setOnAction(new EventHandler<ActionEvent>() {
 			 //   @Override public void handle(ActionEvent e) {
 			  //  	e.getSource().getClass();
