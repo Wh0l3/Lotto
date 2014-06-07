@@ -4,9 +4,10 @@
 
 package application;
 
-import java.awt.Font;
+import java.awt.List;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBContext;
@@ -14,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -21,7 +23,6 @@ import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
 public class Controller {
 
@@ -72,6 +73,15 @@ public class Controller {
 	@FXML
 	// fx:id="grid_superStarNumbers"
 	private GridPane grid_superStarNumbers; // Value injected by FXMLLoader
+	
+	@FXML
+	private ArrayList<Button> numberButtonList = new ArrayList<Button>();
+	
+	@FXML
+	private ArrayList<Button> starNumberButtonList = new ArrayList<Button>();
+	
+	@FXML
+	private ArrayList<Button> superStarNumberButtonList = new ArrayList<Button>();
 
 	@FXML
 	void alert(ActionEvent event) {
@@ -95,17 +105,31 @@ public class Controller {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(null);
 		if (file != null) {
-			//if (file.getName().contains(".xml")) {
+			if (file.getName().contains(".xml")) {
 				setResponseText("File " + file.getName() + " erhalten");
 				getFileContent(file);
-			//} else {
-			//	setResponseText("File ist kein XML File. Bitte nochmals probieren");
-			//}
-
+			} else {
+				setResponseText("File ist kein XML File. Bitte nochmals probieren");
+			}
 		} else {
 			setResponseText("Kein File enthalten");
 		}
 	}
+
+	@FXML
+    void setLottoNumber(ActionEvent event) {
+
+    }
+
+    @FXML
+    void setLottoStarNumber(ActionEvent event) {
+
+    }
+
+    @FXML
+    void setLottoSuperStarNumber(ActionEvent event) {
+
+    }
 
 	@FXML
 	// This method is called by the FXMLLoader when initialization is complete
@@ -123,43 +147,44 @@ public class Controller {
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
 		setGridPaneSuperStarNumbers();
-		try {
-			getFileContent(new File("asd.de"));
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@FXML
 	void setGridPaneNumbers() {
-		final Label label = new Label();
 		int gridLabel = 0;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 5; j++) {
 				gridLabel++;
-				grid_Numbers.add(new Label(gridLabel + ""), i, j);
+				//numberButtonList.add(gridLabel, new Button(gridLabel + ""));
+				grid_Numbers.add(new Button(gridLabel + ""), i, j);
 			}
 		}
 	}
 
 	@FXML
 	void setGridPaneStarNumbers() {
-		final Label label = new Label();
 		int gridLabel = 0;
 		for (int i = 0; i < 11; i++) {
 			gridLabel++;
-			grid_starNumbers.add(new Label(gridLabel + ""), i, 0);
+			//starNumberButtonList.add(gridLabel, new Button(gridLabel + ""));
+			grid_starNumbers.add(new Button(gridLabel + ""), i, 0);
 		}
 	}
 
 	@FXML
 	void setGridPaneSuperStarNumbers() {
-		final Label label = new Label();
 		int gridLabel = 0;
 		for (int i = 0; i < 4; i++) {
 			gridLabel++;
-			grid_superStarNumbers.add(new Label(gridLabel + ""), i, 0);
+			//superStarNumberButtonList.add(gridLabel, new Button(gridLabel + ""));
+			grid_superStarNumbers.add(new Button(gridLabel + ""), i, 0);
+			//button.setOnAction(new EventHandler<ActionEvent>() {
+			 //   @Override public void handle(ActionEvent e) {
+			  //  	e.getSource().getClass();
+			    	//setLottoNumber(gridLabel);
+			    	//System.out.print(e);
+			   // }
+			//});
 		}
 	}
 
@@ -169,11 +194,12 @@ public class Controller {
 		File tmpFile = new File("lottery_tickets2.xml");
 		// UnMashal the XML - File
 		System.out.print(tmpFile.exists());
-		LotteryTicketsType tickets = (LotteryTicketsType)unmarshaller.unmarshal(tmpFile);
-
+		LotteryTicketsType tickets = (LotteryTicketsType) unmarshaller
+				.unmarshal(tmpFile);
 		for (int i = 0; i < tickets.getLotteryTicket().size(); i++) {
 			if (tickets.getLotteryTicket().get(i) instanceof LotteryTicketType) {
-				LotteryTicketType ticket = (LotteryTicketType) tickets.getLotteryTicket().get(i);
+				LotteryTicketType ticket = (LotteryTicketType) tickets
+						.getLotteryTicket().get(i);
 				System.out.print(ticket);
 				for (int j = 0; j < ticket.getPlay().size(); j++) {
 					PlayType play = (PlayType) ticket.getPlay().get(j);
