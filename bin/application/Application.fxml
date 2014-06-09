@@ -84,9 +84,9 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                              <Label layoutX="17.0" layoutY="14.0" text="Gezogene Nummern" />
-                              <Label layoutX="14.0" layoutY="194.0" text="Gezogene Star Nummern" />
-                              <Label layoutX="17.0" layoutY="333.0" text="Gezogene Super Star Nummern" />
+                              <Label fx:id="lbl_NumbersTaken" layoutX="17.0" layoutY="14.0" text="Gezogene Nummern" />
+                              <Label fx:id="lbl_StarNumbersTaken" layoutX="14.0" layoutY="194.0" text="Gezogene Star Nummern" />
+                              <Label fx:id="lbl_SuperStarNumbersTaken" layoutX="17.0" layoutY="333.0" text="Gezogene Super Star Nummern" />
                            </children>
                         </AnchorPane>
                      </content>

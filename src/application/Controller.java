@@ -23,19 +23,19 @@ import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Numbers;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Stars;
 import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.TableView;
 
 public class Controller {
 
@@ -87,21 +87,28 @@ public class Controller {
 	// fx:id="grid_superStarNumbers"
 	private GridPane grid_superStarNumbers; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lbl_NumbersTaken"
-    private Label lbl_NumbersTaken; // Value injected by FXMLLoader
+	@FXML
+	// fx:id="lbl_NumbersTaken"
+	private Label lbl_NumbersTaken; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lbl_StarNumbersTaken"
-    private Label lbl_StarNumbersTaken; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="lbl_SuperStarNumbersTaken"
-    private Label lbl_SuperStarNumbersTaken; // Value injected by FXMLLoader
+	@FXML
+	// fx:id="lbl_StarNumbersTaken"
+	private Label lbl_StarNumbersTaken; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="lbl_SuperStarNumbersTaken"
+	private Label lbl_SuperStarNumbersTaken; // Value injected by FXMLLoader
+
+    @FXML
+    private GridPane grid_ListResults;
 	
+
 	@FXML
 	private ArrayList<Button> numberButtonList = new ArrayList<Button>();
-	
+
 	@FXML
 	private ArrayList<Button> starNumberButtonList = new ArrayList<Button>();
-	
+
 	@FXML
 	private ArrayList<Button> superStarNumberButtonList = new ArrayList<Button>();
 	
@@ -146,44 +153,44 @@ public class Controller {
 	}
 
 	@FXML
-    boolean setLottoNumber(Integer i) {
-		if(lotto.setNumber(i)){
+	boolean setLottoNumber(Integer i) {
+		if (lotto.setNumber(i)) {
 			enablePanes();
 			return true;
 		}
 		return false;
-		
-    }
 
-    @FXML
-    boolean setLottoStarNumber(Integer i) {
-    	if(lotto.setStarNumber(i)){
-    		enablePanes();
-    		return true;
-    	}
-    	return false;
-    	
-    }
+	}
 
-    @FXML
-    boolean setLottoSuperStarNumber(Integer i) {
-    	if(lotto.setSuperStarNumber(i)){
-    		enablePanes();
-    		return true;
-    	}
-    	return false;
-    	
-    }
-    
-    private void enablePanes(){
-		if(lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2 && lotto.superStarNumber.size() == 1){
+	@FXML
+	boolean setLottoStarNumber(Integer i) {
+		if (lotto.setStarNumber(i)) {
+			enablePanes();
+			return true;
+		}
+		return false;
+
+	}
+
+	@FXML
+	boolean setLottoSuperStarNumber(Integer i) {
+		if (lotto.setSuperStarNumber(i)) {
+			enablePanes();
+			return true;
+		}
+		return false;
+
+	}
+
+	private void enablePanes() {
+		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2) {
 			tab_uploadSingle.setDisable(false);
 			tab_uploadMultiple.setDisable(false);
-		}else{
+		} else {
 			tab_uploadSingle.setDisable(true);
 			tab_uploadMultiple.setDisable(true);
 		}
-    }
+	}
 
 	@FXML
 	// This method is called by the FXMLLoader when initialization is complete
@@ -201,19 +208,15 @@ public class Controller {
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
 		setGridPaneSuperStarNumbers();
-		
+
 		/*
 		 * test import: see --> ouput
 		 */
-		try {
-			getFileContent(new File("ticPool.xml"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		  try { getFileContent(new File("ticPool.xml")); } catch
+		  (FileNotFoundException e) { // TODO Auto-generated catch block
+		  e.printStackTrace(); } catch (JAXBException e) { }// TODO
+		 
 	}
 
 	@FXML
@@ -224,25 +227,23 @@ public class Controller {
 				gridLabel++;
 				Button b = new Button(gridLabel + "");
 				Object number;
-				b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-				{
-					@Override
-					public void handle(MouseEvent arg0) {
-						Button b = (Button) arg0.getSource();
-						
-						
-						// TODO Auto-generated method stub
-						System.out.println(b.getText()+ " Button clicked");
-						if(setLottoNumber(Integer.parseInt(b.getText()))){
-							b.setEffect(new DropShadow());
-						}else{
-							b.setEffect(null);
-						}
-						System.out.print("PaneNumbers");
-						
-					}
-			
-				});
+				b.addEventHandler(MouseEvent.MOUSE_CLICKED,
+						new EventHandler<MouseEvent>() {
+							@Override
+							public void handle(MouseEvent arg0) {
+								Button b = (Button) arg0.getSource();
+
+								// TODO Auto-generated method stub
+								System.out.println(b.getText()
+										+ " Button clicked");
+								if (setLottoNumber(Integer.parseInt(b.getText()))) {
+									b.setEffect(new DropShadow());
+								} else {
+									b.setEffect(null);
+								}
+							}
+
+						});
 				grid_Numbers.add(b, j, i);
 			}
 		}
@@ -255,21 +256,18 @@ public class Controller {
 			gridLabel++;
 			Button b = new Button(gridLabel + "");
 			Object number;
-			b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-			{
-				@Override
-				public void handle(MouseEvent arg0) {
-					Button b = (Button) arg0.getSource();
-					
-					
-					// TODO Auto-generated method stub
-					System.out.println(b.getText()+ " Button clicked");
-					setLottoStarNumber(Integer.parseInt(b.getText()));
-					System.out.print("PaneStarNumbers");
-					
-				}
-		
-			});
+			b.addEventHandler(MouseEvent.MOUSE_CLICKED,
+					new EventHandler<MouseEvent>() {
+						@Override
+						public void handle(MouseEvent arg0) {
+							Button b = (Button) arg0.getSource();
+
+							// TODO Auto-generated method stub
+							System.out.println(b.getText() + " Button clicked");
+							setLottoStarNumber(Integer.parseInt(b.getText()));
+						}
+
+					});
 			grid_starNumbers.add(b, i, 0);
 		}
 	}
@@ -279,51 +277,41 @@ public class Controller {
 		int gridLabel = 0;
 		for (int i = 0; i < 4; i++) {
 			gridLabel++;
-			//superStarNumberButtonList.add(gridLabel, new Button(gridLabel + ""));
+			// superStarNumberButtonList.add(gridLabel, new Button(gridLabel +
+			// ""));
 			Button b = new Button(gridLabel + "");
 			Object number;
-			b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-			{
-				@Override
-				public void handle(MouseEvent arg0) {
-					Button b = (Button) arg0.getSource();
-					
-					
-					// TODO Auto-generated method stub
-					System.out.println(b.getText()+ " Button clicked");
-					setLottoSuperStarNumber(Integer.parseInt(b.getText()));
-					System.out.print("PaneSuperStarNumbers");
-					
-				}
-		
-			});
+			b.addEventHandler(MouseEvent.MOUSE_CLICKED,
+					new EventHandler<MouseEvent>() {
+						@Override
+						public void handle(MouseEvent arg0) {
+							Button b = (Button) arg0.getSource();
+
+							// TODO Auto-generated method stub
+							System.out.println(b.getText() + " Button clicked");
+							setLottoSuperStarNumber(Integer.parseInt(b
+									.getText()));
+						}
+
+					});
 			grid_superStarNumbers.add(b, i, 0);
-			
+
 			/*
-			 * this.txtMessage.addEventHandler(KeyEvent.KEY_PRESSED, 
-                new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent arg) { 
-                    	if(arg.getCode() == KeyCode.ENTER)
-                    	{
-                    		try {
-								chatClient.getOutputStream().writeUTF(txtMessage.getText());
-								txtMessage.setText("");
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-                    	}
-                    }
+			 * this.txtMessage.addEventHandler(KeyEvent.KEY_PRESSED, new
+			 * EventHandler<KeyEvent>() { public void handle(KeyEvent arg) {
+			 * if(arg.getCode() == KeyCode.ENTER) { try {
+			 * chatClient.getOutputStream().writeUTF(txtMessage.getText());
+			 * txtMessage.setText(""); } catch (IOException e) { // TODO
+			 * Auto-generated catch block e.printStackTrace(); } } }
 			 */
-			
-			
-			//button.setOnAction(new EventHandler<ActionEvent>() {
-			 //   @Override public void handle(ActionEvent e) {
-			  //  	e.getSource().getClass();
-			    	//setLottoNumber(gridLabel);
-			    	//System.out.print(e);
-			   // }
-			//});
+
+			// button.setOnAction(new EventHandler<ActionEvent>() {
+			// @Override public void handle(ActionEvent e) {
+			// e.getSource().getClass();
+			// setLottoNumber(gridLabel);
+			// System.out.print(e);
+			// }
+			// });
 		}
 	}
 
@@ -331,52 +319,59 @@ public class Controller {
 		JAXBContext jc = JAXBContext.newInstance("ch.bfh.ti.lottery.tickets");
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
 		File tmpFile = new File("ticPool.xml");
-		
-		
+
 		// UnMashal the XML - File
-		
-		
-	
-		
-		Tickets tickets = (Tickets)unmarshaller.unmarshal(file);
-		
-		
-		
-		
+
+		Tickets tickets = (Tickets) unmarshaller.unmarshal(file);
+
 		for (int i = 0; i < tickets.getTicket().size(); i++) {
-			
+
 			/*
 			 * every loop is a ticket
 			 */
 			if (tickets.getTicket().get(i) instanceof Ticket) {
 				TicketType ticket = (TicketType) tickets.getTicket().get(i);
-		
-				
-				System.out.println("draws"+ ticket.getDrawn());
-				System.out.println("Validity"+ticket.getValidity());
+				// System.out.println("draws"+ ticket.getDrawn());
+				// System.out.println("Validity"+ticket.getValidity());
 				/*
 				 * every loop is a "draw"
 				 */
 				for (int j = 0; j < ticket.getPlays().getPlay().size(); j++) {
-					
-					
+
 					Play play = (Play) ticket.getPlays().getPlay().get(j);
-					//System.out.println(play.getNumbers());
+					// System.out.println(play.getNumbers());
 					Numbers numbers = play.getNumbers();
 					Stars stars = play.getStars();
 					int playId = play.getPlayId();
-					/*//System.out.println("Ziehung NR: "+playId);
-					//System.out.println("numbers");
-					for(int number : numbers.getNumber())
-					{
-						//System.out.println(number);
+					int tmp = 0;
+					int starTmp = 0;
+					// System.out.println("Ziehung NR: "+playId);
+					// System.out.println("numbers");
+					for (int number : numbers.getNumber()) {
+						if (lotto.getNumbers().contains(number)) {
+							tmp++;
+						}
+						// System.out.println(number);
 					}
-					//System.out.println("stars");
-					for(int superStar : stars.getStar())
-					{
+
+					// for(int starNumber : )
+					// System.out.println("stars");
+
+					System.out.println("----");
+					for (int superStar : stars.getStar()) {
+						if (lotto.getStarNumbers().contains(superStar)) {
+							starTmp++;
+						}
 						System.out.println(superStar);
 					}
-					System.out.println(play.getStars());*/
+					System.out.println(j);
+					grid_ListResults.addColumn(j, new Pane());
+					grid_ListResults.add(new Label("aasd"), j,0);
+					System.out.println(tmp);
+					System.out.println(starTmp);
+					System.out.println("----");
+					
+					// System.out.println(play.getStars());
 				}
 			}
 		}

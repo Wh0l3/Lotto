@@ -8,14 +8,14 @@ public class LottoDraw {
 
 	ArrayList<Integer> numbers = new ArrayList<Integer>();
 	ArrayList<Integer> starNumbers = new ArrayList<Integer>();
-	ArrayList<Integer> superStarNumber = new ArrayList<Integer>();
+	int superStarNumber = -1;
 
 	// Adds a number to the <numbers> List
 	public boolean setNumber(int number) {
 		if (numbers.contains(number)) {
 			deleteNumber(number);
 			System.out.print("Nummer gelöscht");
-			return true;
+			return false;
 		}
 		if(numbers.size() < 5){
 			numbers.add(number);
@@ -42,13 +42,13 @@ public class LottoDraw {
 
 	// Adds a number to the <superStarNumber> List
 	public boolean setSuperStarNumber(int number) {
-		if (superStarNumber.contains(number)) {
+		if (superStarNumber == number) {
 			deleteSuperStarNumber(number);
 			System.out.print("SuperStarNummer gelöscht");
 			return false;
 		}
-		if(superStarNumber.size() < 1){
-			superStarNumber.add(number);
+		if(superStarNumber == -1){
+			superStarNumber = number;
 			System.out.print("SuperStarNummer hinzugefügt");
 			return true;
 		}
@@ -71,8 +71,20 @@ public class LottoDraw {
 
 	// Deletes a number from the <StarNumber> List
 	public void deleteSuperStarNumber(int number) {
-		if (superStarNumber.contains(number)) {
-			superStarNumber.remove(superStarNumber.indexOf(number));
+		if (superStarNumber == number) {
+			superStarNumber = -1;
 		}	
+	}
+	
+	public ArrayList<Integer> getNumbers(){
+		return numbers;
+	}
+	
+	public ArrayList<Integer> getStarNumbers(){
+		return starNumbers;
+	}
+	
+	public int getSuperStar(){
+		return superStarNumber;
 	}
 }
