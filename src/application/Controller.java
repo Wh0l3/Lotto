@@ -6,6 +6,7 @@ package application;
 
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,7 +47,7 @@ public class Controller {
 
 	@FXML
 	// ResourceBundle that was given to the FXMLLoader
-	private ResourceBundle resources;
+	private ResourceBundle resources = ResourceBundle.getBundle("Bundle", new Locale("de", "DE"));
 
 	@FXML
 	// URL location of the FXML file that was given to the FXMLLoader
@@ -313,7 +314,7 @@ public class Controller {
 			if (tickets.getTicket().get(i) instanceof Ticket) {
 				TicketType ticket = (Ticket) tickets.getTicket().get(i);
 				
-				ticket.getTicketId();
+				//ticket.getTicketId();
 				
 				String time = ticket.getTimeStamp().getDay() + "."
 						+ ticket.getTimeStamp().getMonth() + "."
