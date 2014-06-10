@@ -29,6 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -48,6 +49,34 @@ public class Controller {
 	private URL location;
 
 	@FXML
+	// fx:id="lbl_responses"
+	private Label lbl_responses; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="grid_Numbers"
+	private GridPane grid_Numbers; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="lbl_StarNumbersTaken"
+	private Label lbl_StarNumbersTaken; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="btn_uploadMultiple"
+	private Button btn_uploadMultiple; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="txt_datum"
+	private TextField txt_datum; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="lbl_SuperStarNumbersTaken"
+	private Label lbl_SuperStarNumbersTaken; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="txt_superStar"
+	private TextField txt_superStar; // Value injected by FXMLLoader
+
+	@FXML
 	// fx:id="mnu_close"
 	private MenuItem mnu_close; // Value injected by FXMLLoader
 
@@ -60,48 +89,24 @@ public class Controller {
 	private Tab tab_uploadSingle; // Value injected by FXMLLoader
 
 	@FXML
-	// fx:id="btn_uploadSingle"
-	private Button btn_uploadSingle; // Value injected by FXMLLoader
-
-	@FXML
-	// fx:id="btn_uploadMultiple"
-	private Button btn_uploadMultiple; // Value injected by FXMLLoader
-
-	@FXML
-	// fx:id="mnu_about"
-	private MenuItem mnu_about; // Value injected by FXMLLoader
-
-	@FXML
-	// fx:id="lbl_responses"
-	private Label lbl_responses; // Value injected by FXMLLoader
-
-	@FXML
-	// fx:id="grid_Numbers"
-	private GridPane grid_Numbers; // Value injected by FXMLLoader
-
-	@FXML
 	// fx:id="grid_starNumbers"
 	private GridPane grid_starNumbers; // Value injected by FXMLLoader
-
-	@FXML
-	// fx:id="grid_superStarNumbers"
-	private GridPane grid_superStarNumbers; // Value injected by FXMLLoader
 
 	@FXML
 	// fx:id="lbl_NumbersTaken"
 	private Label lbl_NumbersTaken; // Value injected by FXMLLoader
 
 	@FXML
-	// fx:id="lbl_StarNumbersTaken"
-	private Label lbl_StarNumbersTaken; // Value injected by FXMLLoader
+	// fx:id="btn_uploadSingle"
+	private Button btn_uploadSingle; // Value injected by FXMLLoader
 
 	@FXML
-	// fx:id="lbl_SuperStarNumbersTaken"
-	private Label lbl_SuperStarNumbersTaken; // Value injected by FXMLLoader
+	// fx:id="grid_ListResults"
+	private GridPane grid_ListResults; // Value injected by FXMLLoader
 
-    @FXML
-    private GridPane grid_ListResults;
-	
+	@FXML
+	// fx:id="mnu_about"
+	private MenuItem mnu_about; // Value injected by FXMLLoader
 
 	@FXML
 	private ArrayList<Button> numberButtonList = new ArrayList<Button>();
@@ -111,10 +116,10 @@ public class Controller {
 
 	@FXML
 	private ArrayList<Button> superStarNumberButtonList = new ArrayList<Button>();
-	
+
 	LottoDraw lotto = new LottoDraw();
 
-	@FXML
+	/*@FXML
 	void alert(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(null);
@@ -124,7 +129,7 @@ public class Controller {
 		} else {
 			lbl_responses.setText("Kein File enthalten");
 		}
-	}
+	}*/
 
 	@FXML
 	void setResponseText(String text) {
@@ -173,13 +178,12 @@ public class Controller {
 	}
 
 	@FXML
-	boolean setLottoSuperStarNumber(Integer i) {
-		if (lotto.setSuperStarNumber(i)) {
+	boolean setLottoSuperStarNumber(String s) {
+		if (lotto.setSuperStarNumber(s)) {
 			enablePanes();
 			return true;
 		}
 		return false;
-
 	}
 
 	private void enablePanes() {
@@ -195,28 +199,47 @@ public class Controller {
 	@FXML
 	// This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+		assert lbl_responses != null : "fx:id=\"lbl_responses\" was not injected: check your FXML file 'Application.fxml'.";
+		assert grid_Numbers != null : "fx:id=\"grid_Numbers\" was not injected: check your FXML file 'Application.fxml'.";
+		assert lbl_StarNumbersTaken != null : "fx:id=\"lbl_StarNumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
+		assert btn_uploadMultiple != null : "fx:id=\"btn_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
+		assert txt_datum != null : "fx:id=\"txt_datum\" was not injected: check your FXML file 'Application.fxml'.";
+		assert lbl_SuperStarNumbersTaken != null : "fx:id=\"lbl_SuperStarNumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
+		assert txt_superStar != null : "fx:id=\"txt_superStar\" was not injected: check your FXML file 'Application.fxml'.";
 		assert mnu_close != null : "fx:id=\"mnu_close\" was not injected: check your FXML file 'Application.fxml'.";
-		assert grid_superStarNumbers != null : "fx:id=\"grid_superStarNumbers\" was not injected: check your FXML file 'Application.fxml'.";
 		assert tab_uploadMultiple != null : "fx:id=\"tab_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
 		assert tab_uploadSingle != null : "fx:id=\"tab_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_starNumbers != null : "fx:id=\"grid_starNumbers\" was not injected: check your FXML file 'Application.fxml'.";
-		assert lbl_responses != null : "fx:id=\"lbl_responses\" was not injected: check your FXML file 'Application.fxml'.";
-		assert grid_Numbers != null : "fx:id=\"grid_Numbers\" was not injected: check your FXML file 'Application.fxml'.";
+		assert lbl_NumbersTaken != null : "fx:id=\"lbl_NumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadSingle != null : "fx:id=\"btn_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
-		assert btn_uploadMultiple != null : "fx:id=\"btn_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
+		assert grid_ListResults != null : "fx:id=\"grid_ListResults\" was not injected: check your FXML file 'Application.fxml'.";
 		assert mnu_about != null : "fx:id=\"mnu_about\" was not injected: check your FXML file 'Application.fxml'.";
+
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
-		setGridPaneSuperStarNumbers();
-
 		/*
 		 * test import: see --> ouput
 		 */
-		
-		  try { getFileContent(new File("ticPool.xml")); } catch
-		  (FileNotFoundException e) { // TODO Auto-generated catch block
-		  e.printStackTrace(); } catch (JAXBException e) { }// TODO
-		 
+
+		try {
+			getFileContent(new File("ticPool.xml"));
+		} catch (FileNotFoundException e) { // TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+		}// TODO*/
+
+	}
+
+	@FXML
+	void setLottoDate(ActionEvent event) {
+		TextField tmp = (TextField)event.getSource();
+		lotto.setDate((String)tmp.getCharacters());
+	}
+
+	@FXML
+	void setSuperStar(ActionEvent event) {
+		TextField tmp = (TextField)event.getSource();
+		lotto.setSuperStarNumber((String)tmp.getCharacters());
 	}
 
 	@FXML
@@ -272,49 +295,6 @@ public class Controller {
 		}
 	}
 
-	@FXML
-	void setGridPaneSuperStarNumbers() {
-		int gridLabel = 0;
-		for (int i = 0; i < 4; i++) {
-			gridLabel++;
-			// superStarNumberButtonList.add(gridLabel, new Button(gridLabel +
-			// ""));
-			Button b = new Button(gridLabel + "");
-			Object number;
-			b.addEventHandler(MouseEvent.MOUSE_CLICKED,
-					new EventHandler<MouseEvent>() {
-						@Override
-						public void handle(MouseEvent arg0) {
-							Button b = (Button) arg0.getSource();
-
-							// TODO Auto-generated method stub
-							System.out.println(b.getText() + " Button clicked");
-							setLottoSuperStarNumber(Integer.parseInt(b
-									.getText()));
-						}
-
-					});
-			grid_superStarNumbers.add(b, i, 0);
-
-			/*
-			 * this.txtMessage.addEventHandler(KeyEvent.KEY_PRESSED, new
-			 * EventHandler<KeyEvent>() { public void handle(KeyEvent arg) {
-			 * if(arg.getCode() == KeyCode.ENTER) { try {
-			 * chatClient.getOutputStream().writeUTF(txtMessage.getText());
-			 * txtMessage.setText(""); } catch (IOException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); } } }
-			 */
-
-			// button.setOnAction(new EventHandler<ActionEvent>() {
-			// @Override public void handle(ActionEvent e) {
-			// e.getSource().getClass();
-			// setLottoNumber(gridLabel);
-			// System.out.print(e);
-			// }
-			// });
-		}
-	}
-
 	void getFileContent(File file) throws JAXBException, FileNotFoundException {
 		JAXBContext jc = JAXBContext.newInstance("ch.bfh.ti.lottery.tickets");
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
@@ -329,8 +309,11 @@ public class Controller {
 			/*
 			 * every loop is a ticket
 			 */
+		
 			if (tickets.getTicket().get(i) instanceof Ticket) {
 				TicketType ticket = (TicketType) tickets.getTicket().get(i);
+				System.out.println(ticket.getTimeStamp().getDay());
+				String time = ticket.getTimeStamp().getDay()+"."+ticket.getTimeStamp().getMonth()+"."+ticket.getTimeStamp().getYear();
 				// System.out.println("draws"+ ticket.getDrawn());
 				// System.out.println("Validity"+ticket.getValidity());
 				/*
@@ -357,21 +340,15 @@ public class Controller {
 					// for(int starNumber : )
 					// System.out.println("stars");
 
-					System.out.println("----");
 					for (int superStar : stars.getStar()) {
 						if (lotto.getStarNumbers().contains(superStar)) {
 							starTmp++;
 						}
-						System.out.println(superStar);
 					}
-					System.out.println(j);
-					grid_ListResults.addColumn(j, new Pane());
-					grid_ListResults.add(new Label("aasd"), j,0);
-					System.out.println(tmp);
-					System.out.println(starTmp);
-					System.out.println("----");
-					
-					// System.out.println(play.getStars());
+					/*grid_ListResults.addColumn(i, new Pane());
+					grid_ListResults.add(new Label(playId + ""), 0, i);
+					grid_ListResults.add(new Label(tmp + ""), 1, i);
+					grid_ListResults.add(new Label(starTmp + ""), 2, i);*/
 				}
 			}
 		}

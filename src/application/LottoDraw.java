@@ -8,8 +8,17 @@ public class LottoDraw {
 
 	ArrayList<Integer> numbers = new ArrayList<Integer>();
 	ArrayList<Integer> starNumbers = new ArrayList<Integer>();
-	int superStarNumber = -1;
+	String superStarNumber = "";
+	String drawDate = "";
 
+	public void setDate(String d){
+		drawDate = d;
+	}
+	
+	public String getDate(){
+		return drawDate;
+	}
+	
 	// Adds a number to the <numbers> List
 	public boolean setNumber(int number) {
 		if (numbers.contains(number)) {
@@ -41,16 +50,10 @@ public class LottoDraw {
 	}
 
 	// Adds a number to the <superStarNumber> List
-	public boolean setSuperStarNumber(int number) {
-		if (superStarNumber == number) {
-			deleteSuperStarNumber(number);
-			System.out.print("SuperStarNummer gelöscht");
-			return false;
-		}
-		if(superStarNumber == -1){
-			superStarNumber = number;
-			System.out.print("SuperStarNummer hinzugefügt");
-			return true;
+	public boolean setSuperStarNumber(String superStar) {
+		if(superStar.length() != 0){
+			superStarNumber = superStar;
+					return true;
 		}
 		return false;
 	}
@@ -70,10 +73,8 @@ public class LottoDraw {
 	}
 
 	// Deletes a number from the <StarNumber> List
-	public void deleteSuperStarNumber(int number) {
-		if (superStarNumber == number) {
-			superStarNumber = -1;
-		}	
+	public void deleteSuperStarNumber() {
+		superStarNumber = "";	
 	}
 	
 	public ArrayList<Integer> getNumbers(){
@@ -84,7 +85,7 @@ public class LottoDraw {
 		return starNumbers;
 	}
 	
-	public int getSuperStar(){
+	public String getSuperStar(){
 		return superStarNumber;
 	}
 }
