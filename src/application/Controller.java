@@ -147,13 +147,6 @@ public class Controller {
 	
 	@FXML
     private Label lbl_Date;
-	/*
-	 * @FXML void alert(ActionEvent event) { FileChooser fileChooser = new
-	 * FileChooser(); File file = fileChooser.showOpenDialog(null); if (file !=
-	 * null) { System.out.print("File erhalten");
-	 * lbl_responses.setText("File erhalten"); } else {
-	 * lbl_responses.setText("Kein File enthalten"); } }
-	 */
 
 	@FXML
 	void setResponseText(String text) {
@@ -211,11 +204,6 @@ public class Controller {
 	}
 
 	private void enablePanes() {
-		System.out.println(lotto.numbers.size());
-		System.out.println(lotto.starNumbers.size());
-		System.out.println(lotto.superStarNumber.length());
-		
-		
 		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2) {
 			
 			tab_uploadSingle.setDisable(false);
@@ -261,6 +249,7 @@ public class Controller {
 		 */
 
 	}
+	
 	private void changeLanguage(ResourceBundle resources)
 	{
 		lbl_Date.setText(resources.getString("key.label.date"));
@@ -292,13 +281,13 @@ public class Controller {
 	@FXML
 	void setLottoDate(ActionEvent event) {
 		TextField tmp = (TextField) event.getSource();
-		lotto.setDate((String) tmp.getCharacters());
+		lotto.setDate(tmp.getText());
 	}
 
 	@FXML
 	void setSuperStar(ActionEvent event) {
 		TextField tmp = (TextField) event.getSource();
-		lotto.setSuperStarNumber((String) tmp.getCharacters());
+		lotto.setSuperStarNumber(tmp.getText());
 	}
 
 	@FXML
