@@ -4,19 +4,20 @@
 
 package application;
 
-import java.awt.List;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import ch.bfh.ti.lottery.tickets.TicketType;
+import ch.bfh.ti.lottery.tickets.TicketType.SuperStars;
+import ch.bfh.ti.lottery.tickets.TicketType.SuperStars.SuperStar;
 import ch.bfh.ti.lottery.tickets.Tickets;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Numbers;
@@ -25,7 +26,6 @@ import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -36,9 +36,13 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ScrollPane;
 
 public class Controller {
+
+	@FXML
+	// fx:id="srollPane"
+	private ScrollPane srollPane; // Value injected by FXMLLoader
 
 	@FXML
 	// ResourceBundle that was given to the FXMLLoader
@@ -119,17 +123,13 @@ public class Controller {
 
 	LottoDraw lotto = new LottoDraw();
 
-	/*@FXML
-	void alert(ActionEvent event) {
-		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(null);
-		if (file != null) {
-			System.out.print("File erhalten");
-			lbl_responses.setText("File erhalten");
-		} else {
-			lbl_responses.setText("Kein File enthalten");
-		}
-	}*/
+	/*
+	 * @FXML void alert(ActionEvent event) { FileChooser fileChooser = new
+	 * FileChooser(); File file = fileChooser.showOpenDialog(null); if (file !=
+	 * null) { System.out.print("File erhalten");
+	 * lbl_responses.setText("File erhalten"); } else {
+	 * lbl_responses.setText("Kein File enthalten"); } }
+	 */
 
 	@FXML
 	void setResponseText(String text) {
@@ -199,6 +199,7 @@ public class Controller {
 	@FXML
 	// This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+		assert srollPane != null : "fx:id=\"srollPane\" was not injected: check your FXML file 'Application.fxml'.";
 		assert lbl_responses != null : "fx:id=\"lbl_responses\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_Numbers != null : "fx:id=\"grid_Numbers\" was not injected: check your FXML file 'Application.fxml'.";
 		assert lbl_StarNumbersTaken != null : "fx:id=\"lbl_StarNumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
@@ -221,25 +222,24 @@ public class Controller {
 		 * test import: see --> ouput
 		 */
 
-		try {
-			getFileContent(new File("ticPool.xml"));
-		} catch (FileNotFoundException e) { // TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JAXBException e) {
-		}// TODO*/
+		/*
+		 * try { getFileContent(new File("ticPool.xml")); } catch
+		 * (FileNotFoundException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (JAXBException e) { }// TODO
+		 */
 
 	}
 
 	@FXML
 	void setLottoDate(ActionEvent event) {
-		TextField tmp = (TextField)event.getSource();
-		lotto.setDate((String)tmp.getCharacters());
+		TextField tmp = (TextField) event.getSource();
+		lotto.setDate((String) tmp.getCharacters());
 	}
 
 	@FXML
 	void setSuperStar(ActionEvent event) {
-		TextField tmp = (TextField)event.getSource();
-		lotto.setSuperStarNumber((String)tmp.getCharacters());
+		TextField tmp = (TextField) event.getSource();
+		lotto.setSuperStarNumber((String) tmp.getCharacters());
 	}
 
 	@FXML
@@ -303,55 +303,65 @@ public class Controller {
 		// UnMashal the XML - File
 
 		Tickets tickets = (Tickets) unmarshaller.unmarshal(file);
-
+		int columnCount = 1;
 		for (int i = 0; i < tickets.getTicket().size(); i++) {
 
 			/*
 			 * every loop is a ticket
 			 */
-		
+
 			if (tickets.getTicket().get(i) instanceof Ticket) {
-				TicketType ticket = (TicketType) tickets.getTicket().get(i);
-				System.out.println(ticket.getTimeStamp().getDay());
-				String time = ticket.getTimeStamp().getDay()+"."+ticket.getTimeStamp().getMonth()+"."+ticket.getTimeStamp().getYear();
-				// System.out.println("draws"+ ticket.getDrawn());
-				// System.out.println("Validity"+ticket.getValidity());
-				/*
-				 * every loop is a "draw"
-				 */
-				for (int j = 0; j < ticket.getPlays().getPlay().size(); j++) {
+				TicketType ticket = (Ticket) tickets.getTicket().get(i);
+				
+				ticket.getTicketId();
+				
+				String time = ticket.getTimeStamp().getDay() + "."
+						+ ticket.getTimeStamp().getMonth() + "."
+						+ ticket.getTimeStamp().getYear();
+				if (ticket.getValidity() == 1) { // &&
+					SuperStars superStar = ticket.getSuperStars();
+					
+					for (int j = 0; j < ticket.getPlays().getPlay().size(); j++) {
+						
+						Play play = (Play) ticket.getPlays().getPlay().get(j);
+						Numbers numbers = play.getNumbers();
+						Stars stars = play.getStars();
+						
+						int hasSuperStar = 0; 
+						int playId = play.getPlayId();
+						int tmp = 0;
+						int starTmp = 0;
 
-					Play play = (Play) ticket.getPlays().getPlay().get(j);
-					// System.out.println(play.getNumbers());
-					Numbers numbers = play.getNumbers();
-					Stars stars = play.getStars();
-					int playId = play.getPlayId();
-					int tmp = 0;
-					int starTmp = 0;
-					// System.out.println("Ziehung NR: "+playId);
-					// System.out.println("numbers");
-					for (int number : numbers.getNumber()) {
-						if (lotto.getNumbers().contains(number)) {
-							tmp++;
+						for (int number : numbers.getNumber()) {
+							if (lotto.getNumbers().contains(number)) {
+								tmp++;
+							}
 						}
-						// System.out.println(number);
-					}
 
-					// for(int starNumber : )
-					// System.out.println("stars");
-
-					for (int superStar : stars.getStar()) {
-						if (lotto.getStarNumbers().contains(superStar)) {
-							starTmp++;
+						for (int starNumber : stars.getStar()) {
+							if (lotto.getStarNumbers().contains(starNumber)) {
+								starTmp++;
+							}
 						}
+					
+						for(SuperStar ele : ticket.getSuperStars().getSuperStar()){
+							if(ele.equals(superStar)){
+								hasSuperStar = 1;
+							}
+						}
+						
+						
+						grid_ListResults.addColumn(columnCount, new Pane());
+						grid_ListResults.add(new Label(playId + ""), 0, columnCount);
+						grid_ListResults.add(new Label(tmp + ""), 1, columnCount);
+						grid_ListResults.add(new Label(starTmp + ""), 2, columnCount);
+						grid_ListResults.add(new Label(hasSuperStar + ""), 3, columnCount);
+						columnCount++;
 					}
-					/*grid_ListResults.addColumn(i, new Pane());
-					grid_ListResults.add(new Label(playId + ""), 0, i);
-					grid_ListResults.add(new Label(tmp + ""), 1, i);
-					grid_ListResults.add(new Label(starTmp + ""), 2, i);*/
 				}
 			}
 		}
+		System.out.println("Fertig");
 	}
 
 }

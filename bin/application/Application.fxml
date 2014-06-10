@@ -30,7 +30,7 @@
             </MenuBar>
             <TabPane layoutY="27.0" prefHeight="497.0" prefWidth="714.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Validate xm">
+                  <Tab text="%key.tab.first">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="89.0">
                            <children>
@@ -73,38 +73,42 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                              <Label fx:id="lbl_NumbersTaken" layoutX="17.0" layoutY="14.0" text="Gezogene Nummern" />
-                              <Label fx:id="lbl_StarNumbersTaken" layoutX="14.0" layoutY="194.0" text="Gezogene Star Nummern" />
-                              <Label fx:id="lbl_SuperStarNumbersTaken" layoutX="17.0" layoutY="333.0" text="Super Star" />
+                              <Label fx:id="lbl_NumbersTaken" layoutX="17.0" layoutY="14.0" text="%key.label.drawnNumbers" />
+                              <Label fx:id="lbl_StarNumbersTaken" layoutX="14.0" layoutY="194.0" text="%key.label.starNumbers" />
+                              <Label fx:id="lbl_SuperStarNumbersTaken" layoutX="17.0" layoutY="333.0" text="%key.label.drawnsuperStar" />
                               <TextField fx:id="txt_superStar" layoutX="82.0" layoutY="329.0" onAction="#setSuperStar" onInputMethodTextChanged="#setSuperStar" />
-                              <Label layoutX="17.0" layoutY="402.0" text="Datum der Ziehung" />
+                              <Label layoutX="17.0" layoutY="402.0" text="%key.label.date" />
                               <TextField fx:id="txt_datum" layoutX="140.0" layoutY="398.0" onAction="#setLottoDate" onInputMethodTextChanged="#setLottoDate" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="tab_uploadSingle" disable="true" text="Single Choice">
+                  <Tab fx:id="tab_uploadSingle" disable="true" text="%key.tab.second">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="btn_uploadSingle" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectFile" text="Select File" />
-                              <GridPane fx:id="grid_ListResults" gridLinesVisible="true" layoutX="33.0" layoutY="70.0" prefHeight="30.0" prefWidth="591.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label text="Play ID" />
-                                    <Label text="Numbers Treffer" GridPane.columnIndex="1" />
-                                    <Label text="Star Numbers Treffer" GridPane.columnIndex="2" />
-                                    <Label text="Super Star Treffer" GridPane.columnIndex="3" />
-                                 </children>
-                              </GridPane>
+                              <Button fx:id="btn_uploadSingle" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectFile" text="%key.selectFile" />
+                              <ScrollPane fx:id="srollPane" layoutY="56.0" prefHeight="413.0" prefWidth="714.0">
+                                 <content>
+                                    <GridPane fx:id="grid_ListResults" gridLinesVisible="true" prefHeight="30.0" prefWidth="591.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="%key.listTable.playid" />
+                                          <Label text="%key.listTable.numbers" GridPane.columnIndex="1" />
+                                          <Label text="%key.listTable.starNumbers" GridPane.columnIndex="2" />
+                                          <Label text="%key.listTable.superStar" GridPane.columnIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </AnchorPane>
                      </content>
