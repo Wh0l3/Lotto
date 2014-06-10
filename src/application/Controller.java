@@ -23,11 +23,14 @@ import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Numbers;
 import ch.bfh.ti.lottery.tickets.TicketType.Plays.Play.Stars;
 import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
@@ -44,7 +47,7 @@ public class Controller {
 	@FXML
 	// fx:id="srollPane"
 	private ScrollPane srollPane; // Value injected by FXMLLoader
-
+	
 	@FXML
 	// ResourceBundle that was given to the FXMLLoader
 	private ResourceBundle resources;
@@ -93,6 +96,14 @@ public class Controller {
 	// fx:id="mnu_close"
 	private MenuItem mnu_close; // Value injected by FXMLLoader
 
+   @FXML
+    private Menu mnu_file;
+
+    @FXML
+    private Menu mnu_lang;
+    
+    @FXML
+    private Menu mnu_edit; 
 	@FXML
 	// fx:id="tab_uploadMultiple"
 	private Tab tab_uploadMultiple; // Value injected by FXMLLoader
@@ -107,7 +118,7 @@ public class Controller {
 
 	@FXML
 	// fx:id="lbl_NumbersTaken"
-	private Label lbl_NumbersTaken; // Value injected by FXMLLoader
+	private Label lbl_drawnNumbers; // Value injected by FXMLLoader
 
 	@FXML
 	// fx:id="btn_uploadSingle"
@@ -130,8 +141,12 @@ public class Controller {
 	@FXML
 	private ArrayList<Button> superStarNumberButtonList = new ArrayList<Button>();
 
+	private SimpleStringProperty superStarText = new SimpleStringProperty();
+	
 	LottoDraw lotto = new LottoDraw();
-
+	
+	@FXML
+    private Label lbl_Date;
 	/*
 	 * @FXML void alert(ActionEvent event) { FileChooser fileChooser = new
 	 * FileChooser(); File file = fileChooser.showOpenDialog(null); if (file !=
@@ -196,7 +211,13 @@ public class Controller {
 	}
 
 	private void enablePanes() {
-		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2 && lotto.superStarNumber.length() > 0) {
+		System.out.println(lotto.numbers.size());
+		System.out.println(lotto.starNumbers.size());
+		System.out.println(lotto.superStarNumber.length());
+		
+		
+		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2) {
+			
 			tab_uploadSingle.setDisable(false);
 			tab_uploadMultiple.setDisable(false);
 		} else {
@@ -222,12 +243,17 @@ public class Controller {
 		assert tab_uploadMultiple != null : "fx:id=\"tab_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
 		assert tab_uploadSingle != null : "fx:id=\"tab_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_starNumbers != null : "fx:id=\"grid_starNumbers\" was not injected: check your FXML file 'Application.fxml'.";
-		assert lbl_NumbersTaken != null : "fx:id=\"lbl_NumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
+		assert lbl_drawnNumbers != null : "fx:id=\"lbl_NumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadSingle != null : "fx:id=\"btn_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_ListResults != null : "fx:id=\"grid_ListResults\" was not injected: check your FXML file 'Application.fxml'.";
 
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
+		
+		SimpleStringProperty drawnNumbers = new SimpleStringProperty();
+		
+		this.txt_datum.textProperty().bindBidirectional(drawnNumbers);
+		
 		/*
 		 * try { getFileContent(new File("ticPool.xml")); } catch
 		 * (FileNotFoundException e) { // TODO Auto-generated catch block
@@ -235,21 +261,32 @@ public class Controller {
 		 */
 
 	}
-
+	private void changeLanguage(ResourceBundle resources)
+	{
+		lbl_Date.setText(resources.getString("key.label.date"));
+		lbl_drawnNumbers.setText(resources.getString("key.label.drawnNumbers"));
+		lbl_responses.setText(resources.getString("key.tab.second"));
+		this.tab_uploadSingle.setText((resources.getString("key.tab.second")));
+		this.mnu_edit.setText((resources.getString("key.menu.file")));
+		this.mnu_file.setText((resources.getString("key.menu.edit")));
+		this.mnu_lang.setText((resources.getString("key.menu.languages")));
+		this.btn_uploadSingle.setText((resources.getString("key.selectFile")));
+		this.lbl_StarNumbersTaken.setText((resources.getString("key.listTable.superStar")));
+		
+		
+	}
 	@FXML
 	void setEnglish(ActionEvent event) throws IOException {
-		System.out.println("English");
-		// ResourceBundle.getBundle("Bundle", new Locale("en","EN"));
 		resources = ResourceBundle.getBundle("Bundle", new Locale("en", "EN"));
 		System.out.println(resources.getLocale());
-
+		this.changeLanguage(resources);
 	}
 
 	@FXML
 	void setGerman(ActionEvent event) {
-		System.out.println("German");
-		resources = ResourceBundle.getBundle("Bundle", new Locale("de", "DE"));
 
+		resources = ResourceBundle.getBundle("Bundle", new Locale("de", "DE"));
+		this.changeLanguage(resources);
 	}
 
 	@FXML

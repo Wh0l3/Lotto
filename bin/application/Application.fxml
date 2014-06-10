@@ -3,7 +3,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
@@ -11,17 +10,17 @@
          <children>
             <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="714.0">
                <menus>
-                  <Menu mnemonicParsing="false" text="File">
+                  <Menu fx:id="mnu_file" mnemonicParsing="false" text="%key.menu.file">
                      <items>
                         <MenuItem fx:id="mnu_close" mnemonicParsing="false" text="Close" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Edit">
+                  <Menu fx:id="mnu_edit" mnemonicParsing="false" text="%key.menu.edit">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Delete" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Languages">
+                  <Menu fx:id="mnu_lang" mnemonicParsing="false" text="%key.menu.languages">
                      <items>
                         <MenuItem fx:id="mnu_setEnglish" mnemonicParsing="false" onAction="#setEnglish" text="English" />
                         <MenuItem fx:id="mnu_setGerman" mnemonicParsing="false" onAction="#setGerman" text="Deutsch" />
@@ -74,11 +73,11 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                              <Label fx:id="lbl_NumbersTaken" layoutX="17.0" layoutY="14.0" text="%key.label.drawnNumbers" />
+                              <Label fx:id="lbl_drawnNumbers" layoutX="17.0" layoutY="14.0" text="%key.label.drawnNumbers" />
                               <Label fx:id="lbl_StarNumbersTaken" layoutX="14.0" layoutY="194.0" text="%key.label.starNumbers" />
                               <Label fx:id="lbl_SuperStarNumbersTaken" layoutX="17.0" layoutY="333.0" text="%key.label.drawnsuperStar" />
                               <TextField fx:id="txt_superStar" layoutX="82.0" layoutY="329.0" onAction="#setSuperStar" onInputMethodTextChanged="#setSuperStar" />
-                              <Label layoutX="17.0" layoutY="402.0" text="%key.label.date" />
+                              <Label fx:id="lbl_Date" layoutX="17.0" layoutY="402.0" text="%key.label.date" />
                               <TextField fx:id="txt_datum" layoutX="140.0" layoutY="398.0" onAction="#setLottoDate" onInputMethodTextChanged="#setLottoDate" />
                            </children>
                         </AnchorPane>
@@ -102,8 +101,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="%key.listTable.playid" />
-                                          <Label text="%key.listTable.numbers" GridPane.columnIndex="1" />
+                                          <Label fx:id="lbl_PlayId" text="%key.listTable.playid" />
+                                          <Label fx:id="lbl_numbers" text="%key.listTable.numbers" GridPane.columnIndex="1" />
                                           <Label text="%key.listTable.starNumbers" GridPane.columnIndex="2" />
                                           <Label text="%key.listTable.superStar" GridPane.columnIndex="3" />
                                        </children>
