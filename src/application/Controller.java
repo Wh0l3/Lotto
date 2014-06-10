@@ -312,8 +312,8 @@ public class Controller {
 			 */
 
 			if (tickets.getTicket().get(i) instanceof Ticket) {
-				TicketType ticket = (Ticket) tickets.getTicket().get(i);
-				
+				Ticket ticket = (Ticket) tickets.getTicket().get(i);
+				System.out.println(ticket.getTicketId());
 				//ticket.getTicketId();
 				
 				String time = ticket.getTimeStamp().getDay() + "."
