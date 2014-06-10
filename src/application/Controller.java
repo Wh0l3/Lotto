@@ -4,19 +4,18 @@
 
 package application;
 
-
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import ch.bfh.ti.lottery.tickets.TicketType;
 import ch.bfh.ti.lottery.tickets.TicketType.SuperStars;
 import ch.bfh.ti.lottery.tickets.TicketType.SuperStars.SuperStar;
 import ch.bfh.ti.lottery.tickets.Tickets;
@@ -27,6 +26,7 @@ import ch.bfh.ti.lottery.tickets.Tickets.Ticket;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -47,7 +47,15 @@ public class Controller {
 
 	@FXML
 	// ResourceBundle that was given to the FXMLLoader
-	private ResourceBundle resources = ResourceBundle.getBundle("Bundle", new Locale("de", "DE"));
+	private ResourceBundle resources;
+
+	@FXML
+	// fx:id="mnu_setGerman"
+	private MenuItem mnu_setGerman; // Value injected by FXMLLoader
+
+	@FXML
+	// fx:id="mnu_setEnglish"
+	private MenuItem mnu_setEnglish; // Value injected by FXMLLoader
 
 	@FXML
 	// URL location of the FXML file that was given to the FXMLLoader
@@ -188,7 +196,7 @@ public class Controller {
 	}
 
 	private void enablePanes() {
-		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2) {
+		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2 && lotto.superStarNumber.length() > 0) {
 			tab_uploadSingle.setDisable(false);
 			tab_uploadMultiple.setDisable(false);
 		} else {
@@ -201,8 +209,10 @@ public class Controller {
 	// This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 		assert srollPane != null : "fx:id=\"srollPane\" was not injected: check your FXML file 'Application.fxml'.";
+		assert mnu_setGerman != null : "fx:id=\"mnu_setGerman\" was not injected: check your FXML file 'Application.fxml'.";
 		assert lbl_responses != null : "fx:id=\"lbl_responses\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_Numbers != null : "fx:id=\"grid_Numbers\" was not injected: check your FXML file 'Application.fxml'.";
+		assert mnu_setEnglish != null : "fx:id=\"mnu_setEnglish\" was not injected: check your FXML file 'Application.fxml'.";
 		assert lbl_StarNumbersTaken != null : "fx:id=\"lbl_StarNumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadMultiple != null : "fx:id=\"btn_uploadMultiple\" was not injected: check your FXML file 'Application.fxml'.";
 		assert txt_datum != null : "fx:id=\"txt_datum\" was not injected: check your FXML file 'Application.fxml'.";
@@ -215,19 +225,30 @@ public class Controller {
 		assert lbl_NumbersTaken != null : "fx:id=\"lbl_NumbersTaken\" was not injected: check your FXML file 'Application.fxml'.";
 		assert btn_uploadSingle != null : "fx:id=\"btn_uploadSingle\" was not injected: check your FXML file 'Application.fxml'.";
 		assert grid_ListResults != null : "fx:id=\"grid_ListResults\" was not injected: check your FXML file 'Application.fxml'.";
-		assert mnu_about != null : "fx:id=\"mnu_about\" was not injected: check your FXML file 'Application.fxml'.";
 
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
-		/*
-		 * test import: see --> ouput
-		 */
-
 		/*
 		 * try { getFileContent(new File("ticPool.xml")); } catch
 		 * (FileNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); } catch (JAXBException e) { }// TODO
 		 */
+
+	}
+
+	@FXML
+	void setEnglish(ActionEvent event) throws IOException {
+		System.out.println("English");
+		// ResourceBundle.getBundle("Bundle", new Locale("en","EN"));
+		resources = ResourceBundle.getBundle("Bundle", new Locale("en", "EN"));
+		System.out.println(resources.getLocale());
+
+	}
+
+	@FXML
+	void setGerman(ActionEvent event) {
+		System.out.println("German");
+		resources = ResourceBundle.getBundle("Bundle", new Locale("de", "DE"));
 
 	}
 
@@ -250,7 +271,6 @@ public class Controller {
 			for (int j = 0; j < 10; j++) {
 				gridLabel++;
 				Button b = new Button(gridLabel + "");
-				Object number;
 				b.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						new EventHandler<MouseEvent>() {
 							@Override
@@ -258,8 +278,6 @@ public class Controller {
 								Button b = (Button) arg0.getSource();
 
 								// TODO Auto-generated method stub
-								System.out.println(b.getText()
-										+ " Button clicked");
 								if (setLottoNumber(Integer.parseInt(b.getText()))) {
 									b.setEffect(new DropShadow());
 								} else {
@@ -279,7 +297,6 @@ public class Controller {
 		for (int i = 0; i < 11; i++) {
 			gridLabel++;
 			Button b = new Button(gridLabel + "");
-			Object number;
 			b.addEventHandler(MouseEvent.MOUSE_CLICKED,
 					new EventHandler<MouseEvent>() {
 						@Override
@@ -287,8 +304,11 @@ public class Controller {
 							Button b = (Button) arg0.getSource();
 
 							// TODO Auto-generated method stub
-							System.out.println(b.getText() + " Button clicked");
-							setLottoStarNumber(Integer.parseInt(b.getText()));
+							if (setLottoStarNumber(Integer.parseInt(b.getText()))) {
+								b.setEffect(new DropShadow());
+							} else {
+								b.setEffect(null);
+							}
 						}
 
 					});
@@ -314,21 +334,21 @@ public class Controller {
 			if (tickets.getTicket().get(i) instanceof Ticket) {
 				Ticket ticket = (Ticket) tickets.getTicket().get(i);
 				System.out.println(ticket.getTicketId());
-				//ticket.getTicketId();
-				
+				// ticket.getTicketId();
+
 				String time = ticket.getTimeStamp().getDay() + "."
 						+ ticket.getTimeStamp().getMonth() + "."
 						+ ticket.getTimeStamp().getYear();
-				if (ticket.getValidity() == 1) { // &&
+				if (ticket.getValidity() == 1 && lotto.getDate().equals(time)) { // &&
 					SuperStars superStar = ticket.getSuperStars();
-					
+
 					for (int j = 0; j < ticket.getPlays().getPlay().size(); j++) {
-						
+
 						Play play = (Play) ticket.getPlays().getPlay().get(j);
 						Numbers numbers = play.getNumbers();
 						Stars stars = play.getStars();
-						
-						int hasSuperStar = 0; 
+
+						int hasSuperStar = 0;
 						int playId = play.getPlayId();
 						int tmp = 0;
 						int starTmp = 0;
@@ -344,19 +364,23 @@ public class Controller {
 								starTmp++;
 							}
 						}
-					
-						for(SuperStar ele : ticket.getSuperStars().getSuperStar()){
-							if(ele.equals(superStar)){
+
+						for (SuperStar ele : ticket.getSuperStars()
+								.getSuperStar()) {
+							if (ele.equals(superStar)) {
 								hasSuperStar = 1;
 							}
 						}
-						
-						
+
 						grid_ListResults.addColumn(columnCount, new Pane());
-						grid_ListResults.add(new Label(playId + ""), 0, columnCount);
-						grid_ListResults.add(new Label(tmp + ""), 1, columnCount);
-						grid_ListResults.add(new Label(starTmp + ""), 2, columnCount);
-						grid_ListResults.add(new Label(hasSuperStar + ""), 3, columnCount);
+						grid_ListResults.add(new Label(playId + ""), 0,
+								columnCount);
+						grid_ListResults.add(new Label(tmp + ""), 1,
+								columnCount);
+						grid_ListResults.add(new Label(starTmp + ""), 2,
+								columnCount);
+						grid_ListResults.add(new Label(hasSuperStar + ""), 3,
+								columnCount);
 						columnCount++;
 					}
 				}

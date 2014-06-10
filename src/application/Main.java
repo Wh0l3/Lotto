@@ -14,9 +14,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
-			
-			
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Application.fxml"),
 					ResourceBundle.getBundle("Bundle", new Locale("de","DE")));
 			Scene scene = new Scene(root,740,600);
@@ -31,4 +28,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 }

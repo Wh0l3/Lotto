@@ -21,9 +21,10 @@
                         <MenuItem mnemonicParsing="false" text="Delete" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
+                  <Menu mnemonicParsing="false" text="Languages">
                      <items>
-                        <MenuItem fx:id="mnu_about" mnemonicParsing="false" text="About" />
+                        <MenuItem fx:id="mnu_setEnglish" mnemonicParsing="false" onAction="#setEnglish" text="English" />
+                        <MenuItem fx:id="mnu_setGerman" mnemonicParsing="false" onAction="#setGerman" text="Deutsch" />
                      </items>
                   </Menu>
                </menus>
