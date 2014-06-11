@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -101,23 +102,18 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label fx:id="lbl_PlayId" text="%key.listTable.playid" />
-                                          <Label fx:id="lbl_numbers" text="%key.listTable.numbers" GridPane.columnIndex="1" />
-                                          <Label text="%key.listTable.starNumbers" GridPane.columnIndex="2" />
-                                          <Label text="%key.listTable.superStar" GridPane.columnIndex="3" />
+                                          <Label fx:id="lbl_PlayId" prefHeight="17.0" prefWidth="141.0" text="%key.listTable.playid">
+                                             </Label>
+                                          <Label fx:id="lbl_numbers" prefHeight="17.0" prefWidth="147.0" text="%key.listTable.numbers" GridPane.columnIndex="1">
+                                            </Label>
+                                          <Label prefHeight="17.0" prefWidth="146.0" text="%key.listTable.starNumbers" GridPane.columnIndex="2">
+                                            </Label>
+                                          <Label prefHeight="17.0" prefWidth="146.0" text="%key.listTable.superStar" GridPane.columnIndex="3">
+                                            </Label>
                                        </children>
                                     </GridPane>
                                  </content>
                               </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="tab_uploadMultiple" disable="true" text="Multiple Choices">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="89.0">
-                           <children>
-                              <Button fx:id="btn_uploadMultiple" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Select File" />
                            </children>
                         </AnchorPane>
                      </content>
