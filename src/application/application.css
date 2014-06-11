@@ -1,3 +1,11 @@
 #grid_Numbers{
 	 -fx-background-color: #8fbc8f;
 }
+
+.clicked{
+	-fx-background-color: green; 
+	}
+	
+.grid{
+	-fx-padding: 5.0px;
+	}

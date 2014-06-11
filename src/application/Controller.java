@@ -204,7 +204,7 @@ public class Controller {
 	}
 
 	private void enablePanes() {
-		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2) {
+		if (lotto.numbers.size() == 5 && lotto.starNumbers.size() == 2 && lotto.getDate().length() > 0) {
 			
 			tab_uploadSingle.setDisable(false);
 			tab_uploadMultiple.setDisable(false);
@@ -237,7 +237,7 @@ public class Controller {
 
 		setGridPaneNumbers();
 		setGridPaneStarNumbers();
-		
+		grid_ListResults.getStyleClass().add("grid");
 		SimpleStringProperty drawnNumbers = new SimpleStringProperty();
 		
 		this.txt_datum.textProperty().bindBidirectional(drawnNumbers);
@@ -282,6 +282,7 @@ public class Controller {
 	void setLottoDate(ActionEvent event) {
 		TextField tmp = (TextField) event.getSource();
 		lotto.setDate(tmp.getText());
+		enablePanes();
 	}
 
 	@FXML
@@ -302,12 +303,13 @@ public class Controller {
 							@Override
 							public void handle(MouseEvent arg0) {
 								Button b = (Button) arg0.getSource();
-
 								// TODO Auto-generated method stub
 								if (setLottoNumber(Integer.parseInt(b.getText()))) {
 									b.setEffect(new DropShadow());
+									b.getStyleClass().add("clicked");
 								} else {
 									b.setEffect(null);
+									b.getStyleClass().removeAll("clicked");
 								}
 							}
 
@@ -328,12 +330,14 @@ public class Controller {
 						@Override
 						public void handle(MouseEvent arg0) {
 							Button b = (Button) arg0.getSource();
-
+							b.getStyleClass().add("clicked");
 							// TODO Auto-generated method stub
 							if (setLottoStarNumber(Integer.parseInt(b.getText()))) {
 								b.setEffect(new DropShadow());
+								b.getStyleClass().add("clicked");
 							} else {
 								b.setEffect(null);
+								b.getStyleClass().removeAll("clicked");
 							}
 						}
 
@@ -359,8 +363,7 @@ public class Controller {
 
 			if (tickets.getTicket().get(i) instanceof Ticket) {
 				Ticket ticket = (Ticket) tickets.getTicket().get(i);
-				System.out.println(ticket.getTicketId());
-				// ticket.getTicketId();
+				int ticketId =  ticket.getTicketId();
 
 				String time = ticket.getTimeStamp().getDay() + "."
 						+ ticket.getTimeStamp().getMonth() + "."
@@ -380,10 +383,13 @@ public class Controller {
 						int starTmp = 0;
 
 						for (int number : numbers.getNumber()) {
+							System.out.println(number + "-" + lotto.getNumbers());
 							if (lotto.getNumbers().contains(number)) {
 								tmp++;
+								System.out.println("HIT" + tmp);
 							}
 						}
+						System.out.println(" Spiel ENDE");
 
 						for (int starNumber : stars.getStar()) {
 							if (lotto.getStarNumbers().contains(starNumber)) {
@@ -399,7 +405,7 @@ public class Controller {
 						}
 
 						grid_ListResults.addColumn(columnCount, new Pane());
-						grid_ListResults.add(new Label(playId + ""), 0,
+						grid_ListResults.add(new Label(ticketId +"-"+playId), 0,
 								columnCount);
 						grid_ListResults.add(new Label(tmp + ""), 1,
 								columnCount);

@@ -23,12 +23,10 @@ public class LottoDraw {
 	public boolean setNumber(int number) {
 		if (numbers.contains(number)) {
 			deleteNumber(number);
-			System.out.print("Nummer gelöscht");
 			return false;
 		}
 		if(numbers.size() < 5){
 			numbers.add(number);
-			System.out.print("Nummer hinzugefügt");
 			return true;
 		}
 		return false;
@@ -38,12 +36,10 @@ public class LottoDraw {
 	public boolean setStarNumber(int number) {
 		if (starNumbers.contains(number)) {
 			deleteStarNumber(number);
-			System.out.print("StarNummer gelöscht");
 			return false;
 		}
 		if(starNumbers.size() < 2){
 			starNumbers.add(number);
-			System.out.print("StarNummer hinzugefügt");
 			return true;
 		}
 		return false;
